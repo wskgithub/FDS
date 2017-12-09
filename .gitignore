@@ -81,18 +81,3 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
-*.lnk
-.idea/libraries/android_arch_core_common_1_0_0_jar.xml
-build.gradle
-.idea
-gradle
-.idea/libraries/
-.idea/workspace.xml
-
-.idea/libraries/com_android_support_test_espresso_espresso_core_2_2_2.xml
-.idea/libraries/com_android_support_test_espresso_espresso_idling_resource_2_2_2.xml
-.idea/libraries/com_android_support_test_exposed_instrumentation_api_publish_0_5.xml
-.idea/libraries/com_android_support_test_rules_0_5.xml
-.idea/libraries/com_android_support_test_runner_0_5.xml
-.idea/workspace.xml
-.idea/workspace.xml
