@@ -14,5 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:text="承认吧，你也想吸猫" />
+        android:background="#ff33b5e5"
+        android:textStyle="bold"
+        android:text="别装了，你的表情出卖了你3"/>
 </LinearLayout>
