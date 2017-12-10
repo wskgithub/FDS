@@ -1,13 +1,17 @@
 package com.example.loveb.fds;
 
 import android.content.Context;
+import android.graphics.ColorSpace;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,10 +24,21 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +61,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ViewFlipper vflp_help = (ViewFlipper) findViewById(R.id.vF_main);
+
+
         vflp_help.startFlipping();
+        String homeViewFlipperJosnUrl = "http://118.89.50.76:8888/api/FlipViewImage";
+        String homeVideoinfoJsonUrl = "http://118.89.50.76:8888/api/HomeVideo";
+        getJSONByVolley(homeViewFlipperJosnUrl,1);
+        getJSONByVolley(homeVideoinfoJsonUrl,2);
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -173,5 +194,43 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void getJSONByVolley(String JSONDataUrl, final int model) {
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET, JSONDataUrl, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        //处理返回的JSON数据
+                        Log.e("bbb", response.toString());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError arg0) {
+                if (model==1){
+                    ArrayList<FlipViewImageUrl> flipImage = JsonHelper.flipViewImageJson(arg0.toString());
+                    ImageView image1 = (ImageView)findViewById(R.id.iV_index);
+                    ImageView image2 = (ImageView)findViewById(R.id.imageView2);
+                    ImageView image3 = (ImageView)findViewById(R.id.imageView3);
+                    ImageView image4 = (ImageView)findViewById(R.id.imageView4);
+                    Uri uri1 = Uri.parse(flipImage.get(0).getImageUrl());
+                    Uri uri2 = Uri.parse(flipImage.get(1).getImageUrl());
+                    Uri uri3 = Uri.parse(flipImage.get(2).getImageUrl());
+                    Uri uri4 = Uri.parse(flipImage.get(3).getImageUrl());
+                    image1.setImageURI(uri1);
+                    image2.setImageURI(uri2);
+                    image3.setImageURI(uri3);
+                    image4.setImageURI(uri4);
+                }
+                if(model==2){
+                    JsonHelper.homeVideoJson(arg0.toString());
+                }
+
+            }
+        });
+        requestQueue.add(jsonObjectRequest);
     }
 }

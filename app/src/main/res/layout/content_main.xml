@@ -30,8 +30,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <include layout="@layout/scroll_layout" />
-
             <include layout="@layout/layout2" />
+            <include layout="@layout/layout3" />
+            <include layout="@layout/layout4" />
         </ViewFlipper>
 
 

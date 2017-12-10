@@ -9,8 +9,7 @@
         android:id="@+id/iV_index"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/ttt" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tV_index"
