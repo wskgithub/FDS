@@ -42,11 +42,13 @@ import java.util.Map;
 
 public class MainActivity extends FragmentActivity {
 
-    private String[] mTitles = new String[] { "简介", "评价", "相关" };
+    private String[] mTitles = new String[]{"精彩视频", "飞碟说", "飞碟一分钟",
+    "飞碟唱"};
     private SimpleViewPagerIndicator mIndicator;
     private ViewPager mViewPager;
     private FragmentPagerAdapter mAdapter;
     private TabFragment[] mFragments = new TabFragment[mTitles.length];
+    int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,59 +61,48 @@ public class MainActivity extends FragmentActivity {
 
         String homeViewFlipperJosnUrl = "http://118.89.50.76:8888/api/FlipViewImage";
         String homeVideoinfoJsonUrl = "http://118.89.50.76:8888/api/HomeVideo";
-        getJSONByVolley(homeViewFlipperJosnUrl,1);
+        getJSONByVolley(homeViewFlipperJosnUrl, 1);
 //        getJSONByVolley(homeVideoinfoJsonUrl,2);
-
 
 
     }
 
 
-    private void initEvents()
-    {
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener()
-        {
+    private void initEvents() {
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageSelected(int position)
-            {
+            public void onPageSelected(int position) {
             }
 
             @Override
             public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels)
-            {
+                                       int positionOffsetPixels) {
                 mIndicator.scroll(position, positionOffset);
             }
 
             @Override
-            public void onPageScrollStateChanged(int state)
-            {
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
 
     }
 
-    private void initDatas()
-    {
+    private void initDatas() {
         mIndicator.setTitles(mTitles);
 
-        for (int i = 0; i < mTitles.length; i++)
-        {
+        for (int i = 0; i < mTitles.length; i++) {
             mFragments[i] = (TabFragment) TabFragment.newInstance(mTitles[i]);
         }
 
-        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager())
-        {
+        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
-            public int getCount()
-            {
+            public int getCount() {
                 return mTitles.length;
             }
 
             @Override
-            public Fragment getItem(int position)
-            {
+            public Fragment getItem(int position) {
                 return mFragments[position];
             }
 
@@ -121,8 +112,7 @@ public class MainActivity extends FragmentActivity {
         mViewPager.setCurrentItem(0);
     }
 
-    private void initViews()
-    {
+    private void initViews() {
         mIndicator = (SimpleViewPagerIndicator) findViewById(R.id.id_stickynavlayout_indicator);
         mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
 
@@ -137,7 +127,8 @@ public class MainActivity extends FragmentActivity {
     }
 
 
-    int count = 0;
+
+
     public void getJSONByVolley(String JSONDataUrl, final int model) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -154,7 +145,6 @@ public class MainActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError arg0) {
                 if (model == 1) {
                     ArrayList<FlipViewImageUrl> flipImage = JsonHelper.flipViewImageJson(arg0.toString());
-                    ImageView imagetest = (ImageView) findViewById(R.id.imageTest);
                     new DownTask().execute(flipImage.get(0).getImageUrl());
                     new DownTask().execute(flipImage.get(1).getImageUrl());
                     new DownTask().execute(flipImage.get(2).getImageUrl());
@@ -178,11 +168,11 @@ public class MainActivity extends FragmentActivity {
 
         protected Bitmap doInBackground(String... url) {
             URL myFileURL;
-            Bitmap bitmap=null;
-            try{
+            Bitmap bitmap = null;
+            try {
                 myFileURL = new URL(url[0]);
                 //获得连接
-                HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+                HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
                 //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
                 conn.setConnectTimeout(6000);
                 //连接设置获得数据流
@@ -197,12 +187,13 @@ public class MainActivity extends FragmentActivity {
                 bitmap = BitmapFactory.decodeStream(is);
                 //关闭数据流
                 is.close();
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return bitmap;
         }
+
         //主要是更新UI
         @Override
         protected void onPostExecute(Bitmap result) {
@@ -212,25 +203,19 @@ public class MainActivity extends FragmentActivity {
             ImageView image2 = (ImageView) findViewById(R.id.imageView2);
             ImageView image3 = (ImageView) findViewById(R.id.imageView3);
             ImageView image4 = (ImageView) findViewById(R.id.imageView4);
-            if(count == 0)
-            {
+            if (count == 0) {
                 image1.setImageBitmap(result);
                 count++;
-            }
-            else if(count == 1)
-            {
+            } else if (count == 1) {
                 image2.setImageBitmap(result);
                 count++;
-            }
-            else if(count == 2)
-            {
+            } else if (count == 2) {
                 image3.setImageBitmap(result);
                 count++;
-            }
-            else if(count == 3)
-            {
+            } else if (count == 3) {
                 image4.setImageBitmap(result);
                 count++;
             }
         }
+    }
 }
