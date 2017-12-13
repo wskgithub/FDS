@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
@@ -106,7 +107,7 @@ public class ViewHolder extends RecyclerView.ViewHolder
         return this;
     }
 
-    public ViewHolder setImageBitmap(int viewId, Bitmap bitmap)
+    public ViewHolder setImageBitmap(int viewId, AsyncTask<String, Void, Bitmap> bitmap)
     {
         ImageView view = getView(viewId);
         view.setImageBitmap(bitmap);

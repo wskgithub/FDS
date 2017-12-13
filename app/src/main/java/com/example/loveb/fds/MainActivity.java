@@ -151,7 +151,7 @@ public class MainActivity extends FragmentActivity {
                     new DownTask().execute(flipImage.get(3).getImageUrl());
                 }
                 if (model == 2) {
-                    JsonHelper.homeVideoJson(arg0.toString());
+
                 }
 
             }
