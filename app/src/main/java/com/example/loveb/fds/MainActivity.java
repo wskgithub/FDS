@@ -154,14 +154,13 @@ public class MainActivity extends FragmentActivity {
             public void onErrorResponse(VolleyError arg0) {
                 if (model == 1) {
                     ArrayList<FlipViewImageUrl> flipImage = JsonHelper.flipViewImageJson(arg0.toString());
-                    ImageView imagetest = (ImageView) findViewById(R.id.imageTest);
                     new DownTask().execute(flipImage.get(0).getImageUrl());
                     new DownTask().execute(flipImage.get(1).getImageUrl());
                     new DownTask().execute(flipImage.get(2).getImageUrl());
                     new DownTask().execute(flipImage.get(3).getImageUrl());
                 }
                 if (model == 2) {
-                    JsonHelper.homeVideoJson(arg0.toString());
+
                 }
 
             }
@@ -178,11 +177,11 @@ public class MainActivity extends FragmentActivity {
 
         protected Bitmap doInBackground(String... url) {
             URL myFileURL;
-            Bitmap bitmap=null;
-            try{
+            Bitmap bitmap = null;
+            try {
                 myFileURL = new URL(url[0]);
                 //获得连接
-                HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+                HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
                 //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
                 conn.setConnectTimeout(6000);
                 //连接设置获得数据流
@@ -197,12 +196,13 @@ public class MainActivity extends FragmentActivity {
                 bitmap = BitmapFactory.decodeStream(is);
                 //关闭数据流
                 is.close();
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
             return bitmap;
         }
+
         //主要是更新UI
         @Override
         protected void onPostExecute(Bitmap result) {
@@ -212,25 +212,19 @@ public class MainActivity extends FragmentActivity {
             ImageView image2 = (ImageView) findViewById(R.id.imageView2);
             ImageView image3 = (ImageView) findViewById(R.id.imageView3);
             ImageView image4 = (ImageView) findViewById(R.id.imageView4);
-            if(count == 0)
-            {
+            if (count == 0) {
                 image1.setImageBitmap(result);
                 count++;
-            }
-            else if(count == 1)
-            {
+            } else if (count == 1) {
                 image2.setImageBitmap(result);
                 count++;
-            }
-            else if(count == 2)
-            {
+            } else if (count == 2) {
                 image3.setImageBitmap(result);
                 count++;
-            }
-            else if(count == 3)
-            {
+            } else if (count == 3) {
                 image4.setImageBitmap(result);
                 count++;
             }
         }
+    }
 }
