@@ -106,8 +106,7 @@ public class ViewHolder extends RecyclerView.ViewHolder
         view.setImageResource(resId);
         return this;
     }
-
-    public ViewHolder setImageBitmap(int viewId, AsyncTask<String, Void, Bitmap> bitmap)
+    public ViewHolder setImageBitmap(int viewId, Bitmap bitmap)
     {
         ImageView view = getView(viewId);
         view.setImageBitmap(bitmap);

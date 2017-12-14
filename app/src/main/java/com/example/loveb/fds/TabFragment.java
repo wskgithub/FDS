@@ -71,12 +71,24 @@ public class TabFragment extends Fragment
         mRecyclerView.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item, mDatas)
         {
             @Override
-            public void convert(ViewHolder holder, String o)
+            public void convert(final ViewHolder holder, String o)
             {
                 Resources resources = mContext.getResources();
                 holder.setText(R.id.txt_video, o);
                 //holder.setImageDrawable(R.id.img_video,resources.getDrawable(R.drawable.ttt));
-                holder.setImageBitmap(R.id.img_video,new DownTask().execute(homeVideos.get(j).getVideoImageUrl()));
+//                holder.setImageBitmap(R.id.img_video,new DownTask().execute(homeVideos.get(j).getVideoImageUrl()).get());
+                ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(new ImageLoadAsyncTask.ImageCallBack() {
+                    @Override
+                    public void callBitmap(Bitmap bitmap) {
+
+                        if(bitmap != null){
+                            holder.setImageBitmap(R.id.img_video,bitmap);
+                        }
+
+                    }
+                });
+                //执行图片请求
+                imageLoadAsyncTask.execute(homeVideos.get(j).getVideoImageUrl());
                 j++;
             }
         });
@@ -95,7 +107,7 @@ public class TabFragment extends Fragment
     }
 
     public void getJSONByVolley(String JSONDataUrl) {
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET, JSONDataUrl, null,
@@ -113,48 +125,6 @@ public class TabFragment extends Fragment
         });
         requestQueue.add(jsonObjectRequest);
     }
-
-    /*
-    * 异步任务执行网络下载图片
-    * */
-    public class DownTask extends AsyncTask<String, Void, Bitmap> {
-        //上面的方法中，第一个参数：网络图片的路径，第二个参数的包装类：进度的刻度，第三个参数：任务执行的返回结果
-        @Override
-
-        protected Bitmap doInBackground(String... url) {
-            URL myFileURL;
-            Bitmap bitmap = null;
-            try {
-                myFileURL = new URL(url[0]);
-                //获得连接
-                HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
-                //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
-                conn.setConnectTimeout(6000);
-                //连接设置获得数据流
-                conn.setDoInput(true);
-                //不使用缓存
-                conn.setUseCaches(false);
-                //这句可有可无，没有影响
-                //conn.connect();
-                //得到数据流
-                InputStream is = conn.getInputStream();
-                //解析得到图片
-                bitmap = BitmapFactory.decodeStream(is);
-                //关闭数据流
-                is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return bitmap;
-        }
-
-        //主要是更新UI
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            //更新UI
-        }
-    }
+    
 
 }
