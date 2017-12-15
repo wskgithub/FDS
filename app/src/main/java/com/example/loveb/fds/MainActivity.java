@@ -67,7 +67,6 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-
     private void initEvents() {
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -91,6 +90,7 @@ public class MainActivity extends FragmentActivity {
     private void initDatas() {
         mIndicator.setTitles(mTitles);
 
+        //应该是设置标题
         for (int i = 0; i < mTitles.length; i++) {
             mFragments[i] = (TabFragment) TabFragment.newInstance(mTitles[i]);
         }

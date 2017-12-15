@@ -1,16 +1,34 @@
 package com.example.loveb.fds.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.loveb.fds.HomeVideo;
+import com.example.loveb.fds.JsonHelper;
+import com.example.loveb.fds.VideoInfo;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleViewPagerIndicator extends LinearLayout
 {
@@ -24,6 +42,8 @@ public class SimpleViewPagerIndicator extends LinearLayout
 	private float mTranslationX;
 	private Paint mPaint = new Paint();
 	private int mTabWidth;
+	private ArrayList<HomeVideo> homeVideos = new ArrayList<>();
+	private ArrayList<VideoInfo> videoInfo = new ArrayList<VideoInfo>();
 
 	public SimpleViewPagerIndicator(Context context)
 	{
@@ -103,16 +123,42 @@ public class SimpleViewPagerIndicator extends LinearLayout
 			tv.setText(mTitles[i]);
 			tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 			tv.setLayoutParams(lp);
+			final int temp = i;
 			tv.setOnClickListener(new OnClickListener()
 			{
 				@Override
 				public void onClick(View v)
 				{
-
+					Intent intent = new Intent(Intent.ACTION_VIEW);
+					String url = "http://118.89.50.76:8888/api/VideoPlayInfo/"+homeVideos.get(temp).getVideoId();
+					getJSONByVolley(url);
+					Uri uri = Uri.parse(videoInfo.get(0).getVideoSource());
+					intent.setDataAndType(uri, "video/mp4");
+					startActivity(intent);
 				}
 			});
 			addView(tv);
 		}
+	}
+
+	public void getJSONByVolley(String JSONDataUrl) {
+		RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
+		JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+				Request.Method.GET, JSONDataUrl, null,
+				new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						//处理返回的JSON数据
+						Log.e("bbb", response.toString());
+					}
+				}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError arg0) {
+				videoInfo = JsonHelper.videoInfoJson(arg0.toString());
+			}
+		});
+		requestQueue.add(jsonObjectRequest);
 	}
 
 }

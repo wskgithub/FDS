@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * Created by loveb on 2017/12/10.
  */
 
-class JsonHelper {
-    static ArrayList<HomeVideo> homeVideoJson(String json){
+public class JsonHelper {
+    public static ArrayList<HomeVideo> homeVideoJson(String json){
         ArrayList<HomeVideo> homeVideos = new ArrayList<HomeVideo>();
         try{
             JSONArray jsonArray = new JSONArray(extractJson(json));
@@ -26,7 +26,7 @@ class JsonHelper {
         return homeVideos;
     }
 
-    static ArrayList<FlipViewImageUrl> flipViewImageJson(String json){
+    public static ArrayList<FlipViewImageUrl> flipViewImageJson(String json){
         ArrayList<FlipViewImageUrl> flipViewImages = new ArrayList<FlipViewImageUrl>();
         try{
             JSONArray jsonArray = new JSONArray(extractJson(json));
@@ -41,7 +41,7 @@ class JsonHelper {
         return flipViewImages;
     }
 
-    static ArrayList<VideoInfo> videoInfoJson(String json){
+    public static ArrayList<VideoInfo> videoInfoJson(String json){
         ArrayList<VideoInfo> videoInfos = new ArrayList<VideoInfo>();
         try{
             JSONArray jsonArray = new JSONArray(extractJson(json));

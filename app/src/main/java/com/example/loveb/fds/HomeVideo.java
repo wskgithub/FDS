@@ -4,7 +4,7 @@ package com.example.loveb.fds;
  * Created by loveb on 2017/12/10.
  */
 
-class HomeVideo {
+public class HomeVideo {
     private String VideoId;
 
     private String VideoTitle;

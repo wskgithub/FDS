@@ -32,8 +32,6 @@ public class ImageLoadAsyncTask extends AsyncTask<String,Void,Bitmap> {
 
     }
 
-
-
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
@@ -42,8 +40,6 @@ public class ImageLoadAsyncTask extends AsyncTask<String,Void,Bitmap> {
             //设置图片 回调回去
             imageCallBack.callBitmap(bitmap);
         }
-
-
     }
 
     @Override

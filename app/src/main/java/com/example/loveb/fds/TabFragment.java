@@ -36,7 +36,6 @@ public class TabFragment extends Fragment
     public static final String TITLE = "title";
     private String mTitle = "Defaut Value";
     private RecyclerView mRecyclerView;
-    // private TextView mTextView;
     private List<String> mDatas = new ArrayList<String>();
     private int j=0;
     private ArrayList<HomeVideo> homeVideos = new ArrayList<>();
@@ -62,12 +61,13 @@ public class TabFragment extends Fragment
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // mTextView = (TextView) view.findViewById(R.id.id_info);
         // mTextView.setText(mTitle);
-        for (int i = 0; i < homeVideos.size(); i++)
+        /*for (int i = 0; i < homeVideos.size(); i++)
         {
             HomeVideo hv = new HomeVideo();
             hv = homeVideos.get(i);
             mDatas.add(hv.getVideoTitle());
-        }
+        }*/
+
         mRecyclerView.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item, mDatas)
         {
             @Override
@@ -75,26 +75,23 @@ public class TabFragment extends Fragment
             {
                 Resources resources = mContext.getResources();
                 holder.setText(R.id.txt_video, o);
-                //holder.setImageDrawable(R.id.img_video,resources.getDrawable(R.drawable.ttt));
-//                holder.setImageBitmap(R.id.img_video,new DownTask().execute(homeVideos.get(j).getVideoImageUrl()).get());
                 ImageLoadAsyncTask imageLoadAsyncTask = new ImageLoadAsyncTask(new ImageLoadAsyncTask.ImageCallBack() {
                     @Override
                     public void callBitmap(Bitmap bitmap) {
-
                         if(bitmap != null){
                             holder.setImageBitmap(R.id.img_video,bitmap);
                         }
-
                     }
                 });
+                HomeVideo hv = new HomeVideo();
+                hv = homeVideos.get(j);
+                mDatas.add(hv.getVideoTitle());
                 //执行图片请求
                 imageLoadAsyncTask.execute(homeVideos.get(j).getVideoImageUrl());
                 j++;
             }
         });
-
         return view;
-
     }
 
     public static TabFragment newInstance(String title)
