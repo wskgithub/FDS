@@ -36,6 +36,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.content.Intent;
+import android.net.Uri;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,8 +67,6 @@ public class MainActivity extends FragmentActivity {
         String homeVideoinfoJsonUrl = "http://118.89.50.76:8888/api/HomeVideo";
         getJSONByVolley(homeViewFlipperJosnUrl, 1);
 //        getJSONByVolley(homeVideoinfoJsonUrl,2);
-
-
     }
 
     private void initEvents() {
@@ -125,9 +127,6 @@ public class MainActivity extends FragmentActivity {
 				RelativeLayout.LayoutParams.MATCH_PARENT, 600));
 		*/
     }
-
-
-
 
     public void getJSONByVolley(String JSONDataUrl, final int model) {
         RequestQueue requestQueue = Volley.newRequestQueue(this);

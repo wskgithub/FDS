@@ -122,6 +122,4 @@ public class TabFragment extends Fragment
         });
         requestQueue.add(jsonObjectRequest);
     }
-    
-
 }

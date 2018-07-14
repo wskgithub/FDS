@@ -136,6 +136,9 @@ public class SimpleViewPagerIndicator extends LinearLayout
 					intent.setDataAndType(uri, "video/mp4");
 					startActivity(intent);
 				}
+
+				private void startActivity(Intent intent) {
+				}
 			});
 			addView(tv);
 		}
